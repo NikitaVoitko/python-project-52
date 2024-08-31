@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "python-project-52"
+version = "0.1.0"
+description = ""
+authors = ["Nikita <voitko1994@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1"
+python-dotenv = "^1.0.1"
+dj-database-url = "^2.2.0"
+psycopg2 = "^2.9.9"
+django-bootstrap5 = "^24.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

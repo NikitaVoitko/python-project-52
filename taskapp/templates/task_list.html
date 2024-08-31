@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Task List</h2>
+    <a href="{% url 'task-create' %}" class="btn btn-primary">Create New Task</a>
+    <ul class="list-group mt-4">
+        {% for task in tasks %}
+            <li class="list-group-item">
+                <a href="{% url 'task-detail' task.pk %}">{{ task.name }}</a>
+                (Status: {{ task.status.name }}) - Assigned to: 
+                {% if task.assigned_to %}
+                    {{ task.assigned_to.username }}
+                {% else %}
+                    None
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">No tasks available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
