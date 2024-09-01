@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .forms import CustomAuthenticationForm
 
 
 class UserListView(ListView):
@@ -31,6 +32,7 @@ class UserDeleteView(DeleteView):
 
 
 class LoginView(auth_views.LoginView):
+    form_class = CustomAuthenticationForm
     template_name = 'login.html'
     redirect_authenticated_user = True
 
