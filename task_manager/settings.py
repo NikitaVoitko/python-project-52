@@ -16,7 +16,8 @@ import rollbar
 import dj_database_url
 
 # Определяем, запускаются ли тесты
-TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+TESTING = "test" in sys.argv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,15 +87,10 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 if TESTING or not DATABASE_URL:
-    # Используем SQLite для тестов или если DATABASE_URL не задана
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.parse('sqlite:///db.sqlite3', conn_max_age=600)
     }
 else:
-    # Используем базу данных, заданную в DATABASE_URL
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
