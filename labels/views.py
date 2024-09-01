@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from .models import Label
-from .forms import LabelForm  # Импортируем форму
+from .forms import LabelForm
 
 @method_decorator(login_required, name='dispatch')
 class LabelListView(ListView):
