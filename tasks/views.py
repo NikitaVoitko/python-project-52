@@ -3,13 +3,15 @@ from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 from .models import Task
 from labels.models import Label
 from .forms import TaskForm
 from .filters import TaskFilter
-from django.contrib.auth.models import User
 from statuses.models import Status
 
+User = get_user_model()
 
 class TaskListView(LoginRequiredMixin, FilterView):
     model = Task
@@ -33,7 +35,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'tasks/task_form.html'
-    form_class = TaskForm  # Используем кастомную форму TaskForm
+    form_class = TaskForm
     success_url = reverse_lazy('task-list')
 
     def form_valid(self, form):
@@ -42,15 +44,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UpdateView):  # Removed UserPassesTestMixin
     model = Task
     template_name = 'tasks/task_form.html'
     form_class = TaskForm
     success_url = reverse_lazy('task-list')
-
-    def test_func(self):
-        task = self.get_object()
-        return self.request.user == task.author
 
     def form_valid(self, form):
         messages.success(self.request, 'Task updated successfully.')
@@ -65,6 +63,10 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         task = self.get_object()
         return self.request.user == task.author
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Задачу может удалить только ее автор.")
+        return redirect('task-detail', pk=self.get_object().pk)
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Task deleted successfully.')

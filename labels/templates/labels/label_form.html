@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ view.object.name|default:"Create Label" }}{% endblock %}
+{% block title %}{{ view.object.name|default:"Создать метку" }}{% endblock %}
 
 {% block content %}
-    <h2>{% if view.object %}Edit{% else %}Create{% endif %} Label</h2>
+    <h2>{% if view.object %}Редактировать метку{% else %}Создать метку{% endif %}</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Save</button>
-        <a href="{% url 'label-list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'label-list' %}" class="btn btn-secondary">Отменить</a>
     </form>
 {% endblock %}

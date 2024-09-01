@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from .models import Label
+from .forms import LabelForm  # Импортируем форму
 
 @method_decorator(login_required, name='dispatch')
 class LabelListView(ListView):
@@ -15,14 +16,14 @@ class LabelListView(ListView):
 @method_decorator(login_required, name='dispatch')
 class LabelCreateView(CreateView):
     model = Label
-    fields = ['name']
+    form_class = LabelForm
     template_name = 'labels/label_form.html'
     success_url = reverse_lazy('label-list')
 
 @method_decorator(login_required, name='dispatch')
 class LabelUpdateView(UpdateView):
     model = Label
-    fields = ['name']
+    form_class = LabelForm
     template_name = 'labels/label_form.html'
     success_url = reverse_lazy('label-list')
 
@@ -34,7 +35,7 @@ class LabelDeleteView(DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.tasks_with_labels.exists():  # Используем правильное related_name
+        if self.object.tasks_with_labels.exists():
             messages.error(request, "This label is associated with tasks and cannot be deleted.")
             return render(request, self.template_name, {'object': self.object}, status=200)
         messages.success(request, "Label deleted successfully.")

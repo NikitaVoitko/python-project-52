@@ -13,12 +13,13 @@
         {% endif %}
     </p>
     <p><strong>Labels:</strong>
-        {% if task.labels.all %}
-            {% for label in task.labels.all %}
-                {{ label.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-        {% else %}
-            None
-        {% endif %}
+        {% for label in task.labels.all %}
+            {{ label.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            No labels assigned
+        {% endfor %}
     </p>
-    <a href="{% url 'task-update' task.pk %}" class="btn btn-secondary">Edit Task</a​⬤
+    <a href="{% url 'task-update' task.pk %}" class="btn btn-secondary">Edit Task</a>
+    <a href="{% url 'task-delete' task.pk %}" class="btn btn-danger">Delete Task</a>
+    <a href="{% url 'task-list' %}" class="btn btn-primary">Back to Task List</a>
+{% endblock %}
