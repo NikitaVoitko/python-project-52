@@ -1,4 +1,3 @@
-# users/forms.py
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import CustomUser
@@ -28,15 +27,10 @@ class CustomUserCreationForm(UserCreationForm):
         max_length=150,
         required=True,
     )
-    email = forms.EmailField(
-        label='Email',
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
-        required=True,
-    )
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'password1', 'password2')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
