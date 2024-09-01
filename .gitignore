@@ -1,0 +1,64 @@
+# Игнорирование виртуальных окружений
+.venv/
+venv/
+env/
+ENV/
+venv.bak/
+venv_old/
+
+# Игнорирование файлов и папок среды разработки
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Игнорирование файлов настройки операционной системы
+.DS_Store
+Thumbs.db
+
+# Игнорирование файлов Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+*.egg
+
+# Игнорирование логов
+*.log
+
+# Игнорирование временных файлов
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Игнорирование миграций, если хотите игнорировать все миграции
+#migrations/
+
+# Игнорирование файлов и папок coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+
+# Игнорирование файлов и папок mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Игнорирование файлов базы данных
+*.sqlite3
+
+# Игнорирование окружения в Jupyter
+.ipynb_checkpoints/
+
+# Игнорирование статических файлов, если они собираются автоматически
+/static/
+
+# Игнорирование файлов кэширования
+*.cache
