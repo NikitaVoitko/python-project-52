@@ -1,6 +1,6 @@
 [
     {
-        "model": "auth.user",
+        "model": "users.customuser",
         "pk": 1,
         "fields": {
             "username": "testuser",
@@ -14,7 +14,7 @@
         }
     },
     {
-        "model": "auth.user",
+        "model": "users.customuser",
         "pk": 2,
         "fields": {
             "username": "anotheruser",

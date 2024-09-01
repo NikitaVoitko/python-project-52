@@ -145,3 +145,5 @@ ROLLBAR = {
 }
 
 rollbar.init(**ROLLBAR)
+
+AUTH_USER_MODEL = 'users.CustomUser'

@@ -1,10 +1,11 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from statuses.models import Status
 from .models import Task
 from labels.models import Label
 
+User = get_user_model()
 class TaskCRUDTests(TestCase):
     fixtures = ['users.json', 'statuses.json', 'tasks.json']
 

@@ -1,8 +1,10 @@
 import django_filters
 from .models import Task
 from statuses.models import Status
-from django.contrib.auth.models import User
 from labels.models import Label
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class TaskFilter(django_filters.FilterSet):
     status = django_filters.ModelChoiceFilter(queryset=Status.objects.all(), label='Status')

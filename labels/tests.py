@@ -13,7 +13,7 @@ class LabelCRUDTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.get(username='testuser')
-        self.client.force_login(self.user)  # Явно авторизуем пользователя
+        self.client.force_login(self.user)
         self.status = Status.objects.get(name='New')
         self.label = Label.objects.get(name="Bug")
         self.task = Task.objects.get(name="Test task 1")
@@ -26,7 +26,7 @@ class LabelCRUDTests(TestCase):
 
     def test_label_create_view(self):
         response = self.client.post(reverse('label-create'), {'name': 'New Feature'})
-        self.assertEqual(response.status_code, 302)  # Ожидание редиректа
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(Label.objects.filter(name='New Feature').exists())
 
     def test_label_update_view(self):
@@ -37,9 +37,9 @@ class LabelCRUDTests(TestCase):
 
     def test_label_delete_view_protected(self):
         response = self.client.post(reverse('label-delete', args=[self.label.id]))
-        self.assertEqual(response.status_code, 302)  # Проверка на редирект
-        self.assertRedirects(response, reverse('label-list'))  # Проверка, что редирект ведет на список меток
-        self.assertTrue(Label.objects.filter(name='Bug').exists())  # Убедимся, что метка все еще существует
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('label-list'))
+        self.assertTrue(Label.objects.filter(name='Bug').exists())
 
     def test_label_delete_view_allowed(self):
         self.task.labels.remove(self.label)
