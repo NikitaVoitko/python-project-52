@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ task.name }}</h2>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Status:</strong> {{ task.status.name }}</p>
+    <p><strong>Author:</strong> {{ task.author.username }}</p>
+    <p><strong>Assigned to:</strong>
+        {% if task.assigned_to %}
+            {{ task.assigned_to.username }}
+        {% else %}
+            None
+        {% endif %}
+    </p>
+    <p><strong>Labels:</strong>
+        {% if task.labels.all %}
+            {% for label in task.labels.all %}
+                {{ label.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            None
+        {% endif %}
+    </p>
+    <a href="{% url 'task-update' task.pk %}" class="btn btn-secondary">Edit Task</a​⬤

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Labels{% endblock %}
+
+{% block content %}
+    <h2>Labels</h2>
+    <a href="{% url 'label-create' %}" class="btn btn-primary mb-3">Create New Label</a>
+    <ul class="list-group">
+        {% for label in object_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ label.name }}
+                <span>
+                    <a href="{% url 'label-update' label.pk %}" class="btn btn-sm btn-secondary">Edit</a>
+                    <a href="{% url 'label-delete' label.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

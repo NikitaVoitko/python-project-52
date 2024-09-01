@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taskapp',
     'django_bootstrap5',
+    'django_filters',
+    'users',  
+    'statuses',
+    'tasks',
+    'labels',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,7 @@ ROOT_URLCONF = 'project_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # По умолчанию оставляем пустым
+        'DIRS': [BASE_DIR / 'project_manager/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

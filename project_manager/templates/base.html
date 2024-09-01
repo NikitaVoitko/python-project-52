@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}My Django Site{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">My Site</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user-list' %}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'status-list' %}">Statuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'label-list' %}">Labels</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'task-list' %}">Tasks</a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link" style="padding: 0;">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        {% block content %}
+        <!-- Пример контента, его можно заменить в дочерних шаблонах -->
+        <div class="starter-template text-center py-5 px-3">
+            <h1>Welcome to Task Manager</h1>
+            <p class="lead">This is a Hexlet Django Project.</p>
+        </div>
+        {% endblock %}
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
