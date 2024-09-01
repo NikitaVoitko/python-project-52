@@ -2,44 +2,37 @@ name: build
 
 on: push
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
 
-        - name: Set up Python 3.10
-          uses: actions/setup-python@v3
-          with:
-            python-version: "3.10"
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
 
-        - name: Install Poetry
-          run: pip install poetry
+    - name: Install Poetry
+      run: pip install poetry
 
-        - name: Install dependencies and apply migrations
-          run: make install
+    - name: Install dependencies
+      run: poetry install
 
+    - name: Apply migrations
+      run: poetry run python manage.py migrate
 
-        - name: Run tests
-          env:
-            DATABASE_URL: ${{ vars.DATABASE_URL }}
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          run: make test
+    - name: Run tests
+      env:
+        DATABASE_URL: ${{ vars.DATABASE_URL }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      run: poetry run pytest
 
-        - name: Notify deploy to Rollbar
-          uses: rollbar/github-deploy-action@2.1.1
-          id: rollbar_deploy
-          with:
-            environment: 'production'
-            version: ${{ github.sha }}
-            local_username: ${{ github.actor }}
-          env:
-            ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
-
-        - name: Publish code coverage
-          uses: paambaati/codeclimate-action@v9.0.0
-          env:
-            CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-            DATABASE_URL: ${{ vars.DATABASE_URL }}
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          with:
-            coverageCommand: make test-cov
+    - name: Notify deploy to Rollbar
+      uses: rollbar/github-deploy-action@2.1.1
+      id: rollbar_deploy
+      with:
+        environment: 'production'
+        version: ${{ github.sha }}
+        local_username: ${{ github.actor }}
+      env:
+        ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
