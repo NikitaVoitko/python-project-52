@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = "Hexlet project for task management"
+description = ""
 authors = ["Nikita <voitko1994@gmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "task_manager" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
