@@ -83,7 +83,10 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if TESTING:
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if TESTING or not DATABASE_URL:
+    # Используем SQLite для тестов или если DATABASE_URL не задана
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -91,11 +94,9 @@ if TESTING:
         }
     }
 else:
+    # Используем базу данных, заданную в DATABASE_URL
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
-            conn_max_age=600
-        )
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
 
 # Password validation
