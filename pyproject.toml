@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "Hexlet project for task management"
 authors = ["Nikita <voitko1994@gmail.com>"]
 readme = "README.md"
 
