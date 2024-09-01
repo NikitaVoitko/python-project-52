@@ -23,9 +23,10 @@ jobs:
 
     - name: Run tests
       env:
+        DJANGO_SETTINGS_MODULE: task_manager.settings
         DATABASE_URL: ${{ vars.DATABASE_URL }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      run: poetry run pytest
+      run: poetry run python3 manage.py test
 
     - name: Notify deploy to Rollbar
       uses: rollbar/github-deploy-action@2.1.1
