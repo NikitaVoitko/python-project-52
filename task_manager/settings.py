@@ -92,7 +92,9 @@ DATABASES = {
 # Переключение на PostgreSQL, если установлена переменная окружения DATABASE_URL
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
-    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+    # Установка ssl_require на False, если в переменных окружения указано, что SSL не нужен
+    ssl_require = os.getenv('DJANGO_DB_SSL_REQUIRE', 'false').lower() in ['true', '1']
+    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=ssl_require)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
