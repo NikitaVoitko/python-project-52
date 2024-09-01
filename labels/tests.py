@@ -1,24 +1,22 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from statuses.models import Status  # Импорт модели Status из приложения statuses
+from statuses.models import Status
 from tasks.models import Task
 from .models import Label
 
 User = get_user_model()
 
 class LabelCRUDTests(TestCase):
+    fixtures = ['users.json', 'statuses.json', 'tasks.json', 'labels.json']
+
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='password123')
-        self.client.login(username='testuser', password='password123')
-        self.status = Status.objects.create(name='New')
-        self.label = Label.objects.create(name="Bug")
-        self.task = Task.objects.create(
-            name="Test Task",
-            description="Task Description",
-            status=self.status,
-            author=self.user
-        )
+        self.client = Client()
+        self.user = User.objects.get(username='testuser')
+        self.client.force_login(self.user)  # Явно авторизуем пользователя
+        self.status = Status.objects.get(name='New')
+        self.label = Label.objects.get(name="Bug")
+        self.task = Task.objects.get(name="Test task 1")
         self.task.labels.add(self.label)
 
     def test_label_list_view(self):
@@ -27,9 +25,9 @@ class LabelCRUDTests(TestCase):
         self.assertContains(response, self.label.name)
 
     def test_label_create_view(self):
-        response = self.client.post(reverse('label-create'), {'name': 'Feature'})
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(Label.objects.filter(name='Feature').exists())
+        response = self.client.post(reverse('label-create'), {'name': 'New Feature'})
+        self.assertEqual(response.status_code, 302)  # Ожидание редиректа
+        self.assertTrue(Label.objects.filter(name='New Feature').exists())
 
     def test_label_update_view(self):
         response = self.client.post(reverse('label-update', args=[self.label.id]), {'name': 'Bug Updated'})
@@ -39,11 +37,12 @@ class LabelCRUDTests(TestCase):
 
     def test_label_delete_view_protected(self):
         response = self.client.post(reverse('label-delete', args=[self.label.id]))
-        self.assertEqual(response.status_code, 200)  # Статус-код должен быть 200, возвращаемся на ту же страницу
-        self.assertTrue(Label.objects.filter(name='Bug').exists())  # Метка все еще существует
+        self.assertEqual(response.status_code, 302)  # Проверка на редирект
+        self.assertRedirects(response, reverse('label-list'))  # Проверка, что редирект ведет на список меток
+        self.assertTrue(Label.objects.filter(name='Bug').exists())  # Убедимся, что метка все еще существует
 
     def test_label_delete_view_allowed(self):
-        self.task.labels.remove(self.label)  # Убираем метку из задачи, чтобы тестировать удаление
+        self.task.labels.remove(self.label)
         response = self.client.post(reverse('label-delete', args=[self.label.id]))
-        self.assertEqual(response.status_code, 302)  # Проверка редиректа после удаления
-        self.assertFalse(Label.objects.filter(name='Bug').exists())  # Проверка, что метка удалена
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Label.objects.filter(name='Bug').exists())

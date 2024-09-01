@@ -36,7 +36,7 @@ class LabelDeleteView(DeleteView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.tasks_with_labels.exists():
-            messages.error(request, "This label is associated with tasks and cannot be deleted.")
-            return render(request, self.template_name, {'object': self.object}, status=200)
-        messages.success(request, "Label deleted successfully.")
+            messages.error(request, "Невозможно удалить метку, потому что она используется.")
+            return redirect(self.success_url)
+        messages.success(request, "Метка успешно удалена.")
         return super().post(request, *args, **kwargs)

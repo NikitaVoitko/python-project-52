@@ -2,12 +2,11 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-
 class UserCRUDTests(TestCase):
+    fixtures = ['users.json']  # Добавьте эту строку
+
     def setUp(self):
-        # Создаем пользователя для тестирования
-        self.user = User.objects.create_user(username='testuser', password='password123')
-        self.user.save()
+        self.user = User.objects.get(username='testuser')
 
     def test_user_registration(self):
         response = self.client.post(reverse('user-create'), {

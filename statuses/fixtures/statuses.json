@@ -1,0 +1,16 @@
+[
+    {
+        "model": "statuses.status",
+        "pk": 1,
+        "fields": {
+            "name": "New"
+        }
+    },
+    {
+        "model": "statuses.status",
+        "pk": 2,
+        "fields": {
+            "name": "In Progress"
+        }
+    }
+]
