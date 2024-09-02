@@ -2,9 +2,21 @@
 {% block title %}User List{% endblock %}
 {% block content %}
 <h2>Пользователи</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 <ul>
     {% for user in users %}
-        <li>{{ user.username }} - <a href="{% url 'user-update' user.pk %}">Редактировать</a> - <a href="{% url 'user-delete' user.pk %}">Удалить</a></li>
+        <li>{{ user.username }} - 
+            <a href="{% url 'user-update' user.pk %}">Редактировать</a> - 
+            <a href="{% url 'user-delete' user.pk %}">Удалить</a>
+        </li>
     {% endfor %}
 </ul>
 <a href="{% url 'user-create' %}">Создать нового пользователя</a>
