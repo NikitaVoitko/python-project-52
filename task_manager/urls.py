@@ -4,9 +4,9 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('statuses/', include('statuses.urls')),
-    path('tasks/', include('tasks.urls')),
-    path('labels/', include('labels.urls')),
+    path('users/', include('task_manager.apps.users.urls')),
+    path('statuses/', include('task_manager.apps.statuses.urls')),
+    path('tasks/', include('task_manager.apps.tasks.urls')),
+    path('labels/', include('task_manager.apps.labels.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]

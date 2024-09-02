@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'django_filters',
-    'users',
-    'statuses',
-    'tasks',
-    'labels',
+    'task_manager.apps.users',
+    'task_manager.apps.statuses',
+    'task_manager.apps.tasks',
+    'task_manager.apps.labels',
 ]
 
 MIDDLEWARE = [
@@ -162,4 +162,4 @@ ROLLBAR = {
 
 rollbar.init(**ROLLBAR)
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'users.User'
