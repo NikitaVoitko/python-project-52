@@ -86,13 +86,13 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if TESTING or not DATABASE_URL:
+if 'postgres' in DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.parse('sqlite:///db.sqlite3', conn_max_age=600)
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
 else:
     DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+        'default': dj_database_url.parse('sqlite:///db.sqlite3', conn_max_age=600)
     }
 
 # Password validation
