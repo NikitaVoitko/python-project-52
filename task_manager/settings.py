@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if 'postgres' in DATABASE_URL:
+if DATABASE_URL and 'postgres' in DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
