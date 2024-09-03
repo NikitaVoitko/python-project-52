@@ -7,7 +7,7 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="form-group">
-                <label for="id_name">Имя задачи</label>
+                <label for="id_name">Имя</label>
                 <input type="text" id="id_name" name="name" class="form-control" value="{{ form.name.value|default_if_none:'' }}">
                 {{ form.name.errors }}
             </div>
