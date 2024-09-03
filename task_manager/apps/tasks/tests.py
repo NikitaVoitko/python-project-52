@@ -20,7 +20,7 @@ class TaskCRUDTests(TestCase):
             'name': 'New Task',
             'description': 'Task description',
             'status': self.status.id,
-            'assigned_to': self.user.id
+            'executor': self.user.id
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Task.objects.filter(name='New Task').exists())
@@ -31,7 +31,7 @@ class TaskCRUDTests(TestCase):
             'name': 'Updated Task',
             'description': 'Updated description',
             'status': self.status.id,
-            'assigned_to': self.user.id
+            'executor': self.user.id
         })
         self.assertEqual(response.status_code, 302)
         task.refresh_from_db()

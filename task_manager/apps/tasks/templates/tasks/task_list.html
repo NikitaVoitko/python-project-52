@@ -30,10 +30,10 @@
         </div>
         <div class="form-group">
             <label for="executor">Исполнитель</label>
-            <select name="assigned_to" id="executor" class="form-control">
+            <select name="executor" id="executor" class="form-control"> 
                 <option value="">---------</option>
                 {% for user in executors %}
-                    <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.assigned_to %}selected{% endif %}>
+                    <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.executor %}selected{% endif %}>
                         {{ user.get_full_name }}
                     </option>
                 {% endfor %}
@@ -76,7 +76,7 @@
                     <td><a href="{% url 'task-detail' task.pk %}">{{ task.name }}</a></td>
                     <td>{{ task.status.name }}</td>
                     <td>{{ task.author.get_full_name }}</td>
-                    <td>{{ task.assigned_to.get_full_name }}</td>
+                    <td>{{ task.executor.get_full_name }}</td> 
                     <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
                     <td>
                         <a href="{% url 'task-update' task.pk %}">Изменить</a>
