@@ -139,9 +139,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/users/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login/'
-LOGOUT_REDIRECT_URL = '/users/'
+LOGOUT_REDIRECT_URL = '/'
 
 ROLLBAR = {
     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN', 'your_default_rollbar_token'),
