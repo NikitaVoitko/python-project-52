@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Are you sure you want to delete the task "{{ task.name }}"?</h2>
+    <h2>Удаление задачи</h2>
+    <p>Вы уверены, что хотите удалить "{{ task.name }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-        <a href="{% url 'task-list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'task-list' %}" class="btn btn-secondary">Отменить</a>
     </form>
 {% endblock %}
