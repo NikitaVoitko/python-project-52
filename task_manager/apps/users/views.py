@@ -60,6 +60,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             messages.error(self.request, "Невозможно удалить пользователя, потому что он связан с задачами.")
             return redirect(self.success_url)
         
+        messages.success(self.request, "Пользователь успешно удален")
         return super().post(request, *args, **kwargs)
         
 class LoginView(auth_views.LoginView):
