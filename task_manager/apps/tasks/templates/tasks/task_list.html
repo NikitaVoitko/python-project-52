@@ -6,9 +6,9 @@
     <br><br> 
 
     <form method="get" action="{% url 'task-list' %}">
-        <div>
+        <div class="form-group">
             <label for="status">Статус</label>
-            <select name="status" id="status">
+            <select name="status" id="status" class="form-control">
                 <option value="">---------</option>
                 {% for status in statuses %}
                     <option value="{{ status.id }}" {% if status.id|stringformat:"s" == request.GET.status %}selected{% endif %}>
@@ -17,9 +17,9 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
+        <div class="form-group">
             <label for="author">Исполнитель</label>
-            <select name="author" id="author">
+            <select name="author" id="author" class="form-control">
                 <option value="">---------</option>
                 {% for user in users %}
                     <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.author %}selected{% endif %}>
@@ -28,9 +28,9 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
+        <div class="form-group">
             <label for="label">Метка</label>
-            <select name="labels" id="label">
+            <select name="labels" id="label" class="form-control">
                 <option value="">---------</option>
                 {% for label in labels %}
                     <option value="{{ label.id }}" {% if label.id|stringformat:"s" == request.GET.labels %}selected{% endif %}>
@@ -39,11 +39,11 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
-            <label for="own_tasks">Только свои задачи</label>
-            <input type="checkbox" name="own_tasks" id="own_tasks" {% if request.GET.own_tasks == 'on' %}checked{% endif %}>
+        <div class="form-group form-check">
+            <input type="checkbox" name="own_tasks" id="own_tasks" class="form-check-input" {% if request.GET.own_tasks == 'on' %}checked{% endif %}>
+            <label class="form-check-label" for="own_tasks">Только свои задачи</label>
         </div>
-        <button type="submit">Показать</button>
+        <button type="submit" class="btn btn-secondary">Показать</button>
     </form>
 
     <table class="table">
