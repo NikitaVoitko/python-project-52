@@ -6,16 +6,19 @@
         <form method="post" class="mt-4">
             {% csrf_token %}
             {{ form.non_field_errors }}
+            
             <div class="form-group">
                 <label for="id_name">Имя</label>
                 <input type="text" id="id_name" name="name" class="form-control" value="{{ form.name.value|default_if_none:'' }}">
                 {{ form.name.errors }}
             </div>
+            
             <div class="form-group">
                 <label for="id_description">Описание</label>
                 <textarea id="id_description" name="description" class="form-control">{{ form.description.value|default_if_none:'' }}</textarea>
                 {{ form.description.errors }}
             </div>
+            
             <div class="form-group">
                 <label for="id_status">Статус</label>
                 <select id="id_status" name="status" class="form-control">
@@ -27,6 +30,7 @@
                 </select>
                 {{ form.status.errors }}
             </div>
+            
             <div class="form-group">
                 <label for="id_assigned_to">Исполнитель</label>
                 <select id="id_assigned_to" name="assigned_to" class="form-control">
@@ -39,6 +43,7 @@
                 </select>
                 {{ form.assigned_to.errors }}
             </div>
+            
             <div class="form-group">
                 <label for="id_labels">Метки</label>
                 <select id="id_labels" name="labels" class="form-control" multiple>
@@ -50,6 +55,7 @@
                 </select>
                 {{ form.labels.errors }}
             </div>
+            
             <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Изменить{% else %}Создать{% endif %}</button>
             <a href="{% url 'task-list' %}" class="btn btn-secondary">Отмена</a>
         </form>
