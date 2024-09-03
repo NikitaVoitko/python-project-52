@@ -23,7 +23,7 @@
                 <option value="">---------</option>
                 {% for user in users %}
                     <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.author %}selected{% endif %}>
-                        {{ user.username }}
+                        {{ user.get_full_name }}
                     </option>
                 {% endfor %}
             </select>
