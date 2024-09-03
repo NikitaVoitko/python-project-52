@@ -27,7 +27,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
 
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
     model = Status
-    template_name = 'statuses/status_form.html'
+    template_name = 'statuses/status_update.html'
     fields = ['name']
     success_url = reverse_lazy('status-list')
 
