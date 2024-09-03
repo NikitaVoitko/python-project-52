@@ -24,7 +24,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
-    template_name = 'users/user_form.html'
+    template_name = 'users/user_update.html'
     fields = ['username', 'first_name', 'last_name']
     success_url = reverse_lazy('user-list')
 
