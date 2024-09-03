@@ -45,6 +45,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
     success_url = reverse_lazy('task-list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['executors'] = User.objects.all()
+        return context
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         messages.success(self.request, 'Задача успешно создана')
@@ -56,6 +61,11 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'tasks/task_form.html'
     form_class = TaskForm
     success_url = reverse_lazy('task-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['executors'] = User.objects.all()
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, 'Задача успешно обновлена')

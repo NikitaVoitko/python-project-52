@@ -32,9 +32,15 @@
             </div>
 
             <div class="form-group">
-                <label for="{{ form.assigned_to.id_for_label }}">Исполнитель</label>
-                {{ form.assigned_to }}
-                {% for error in form.assigned_to.errors %}
+                <label for="id_executor">Исполнитель</label>
+                <select name="executor" id="id_executor" class="form-control">
+                    {% for user in executors %}
+                        <option value="{{ user.id }}" {% if user.id == form.instance.executor.id %}selected{% endif %}>
+                            {{ user.get_full_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                {% for error in form.executor.errors %}
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
             </div>

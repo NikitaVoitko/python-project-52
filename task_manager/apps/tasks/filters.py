@@ -9,7 +9,7 @@ User = get_user_model()
 class TaskFilter(django_filters.FilterSet):
     status = django_filters.ModelChoiceFilter(queryset=Status.objects.all(), label='Статус')
     author = django_filters.ModelChoiceFilter(queryset=User.objects.all(), label='Автор')
-    assigned_to = django_filters.ModelChoiceFilter(queryset=User.objects.all(), label='Исполнитель')
+    executor = django_filters.ModelChoiceFilter(queryset=User.objects.all(), label='Исполнитель')
     labels = django_filters.ModelMultipleChoiceFilter(queryset=Label.objects.all(), label='Метки')
     own_tasks = django_filters.BooleanFilter(method='filter_own_tasks', label='Только свои задачи')
 
@@ -20,4 +20,4 @@ class TaskFilter(django_filters.FilterSet):
 
     class Meta:
         model = Task
-        fields = ['status', 'author', 'assigned_to', 'labels', 'own_tasks']
+        fields = ['status', 'author', 'executor', 'labels', 'own_tasks']
