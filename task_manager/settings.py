@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 import rollbar
 import dj_database_url
+from django.contrib.messages import constants as messages
 
 # Определяем, запускаются ли тесты
 TESTING = "test" in sys.argv
@@ -78,6 +79,15 @@ TEMPLATES = [
         },
     },
 ]
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
+
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 

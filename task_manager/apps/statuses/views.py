@@ -2,7 +2,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.db.models.deletion import ProtectedError
 from .models import Status
+from task_manager.mixins import DeleteProtectionMixin, AuthRequiredMixin
 
 
 class StatusListView(LoginRequiredMixin, ListView):
@@ -18,7 +21,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('status-list')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Status created successfully.')
+        messages.success(self.request, 'Статус создан.')
         return super().form_valid(form)
 
 
@@ -29,15 +32,18 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('status-list')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Status updated successfully.')
+        messages.success(self.request, 'Статус обновлен.')
         return super().form_valid(form)
 
+class StatusDeleteView(DeleteProtectionMixin,
+                       AuthRequiredMixin,
+                       DeleteView):
 
-class StatusDeleteView(LoginRequiredMixin, DeleteView):
-    model = Status
-    template_name = 'statuses/status_confirm_delete.html'
+    login_url = reverse_lazy('login')
+    success_message = ('The status has been successfully deleted')
     success_url = reverse_lazy('status-list')
+    template_name = 'statuses/status_confirm_delete.html'
+    model = Status
+    protected_url = reverse_lazy('status-list')
+    protected_message = ('Cannot delete status because it in use')
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(self.request, 'Status deleted successfully.')
-        return super().delete(request, *args, **kwargs)

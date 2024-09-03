@@ -7,6 +7,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CustomAuthenticationForm, UserCreationForm
 from .models import User
+from task_manager.apps.tasks.models import Task
+from django.db.models.deletion import ProtectedError
 
 class UserListView(ListView):
     model = User
@@ -43,6 +45,14 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.error(self.request, "У вас нет прав для удаления другого пользователя.")
         return redirect('user-list')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if Task.objects.filter(assigned_to=self.object).exists() or Task.objects.filter(author=self.object).exists():
+            messages.error(self.request, "Невозможно удалить пользователя, потому что он связан с задачами.")
+            return redirect(self.success_url)
+        
+        return super().post(request, *args, **kwargs)
+        
 class LoginView(auth_views.LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'users/login.html'

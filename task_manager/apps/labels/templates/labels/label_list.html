@@ -4,6 +4,13 @@
 
 {% block content %}
     <h2>Метки</h2>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
     <a href="{% url 'label-create' %}" class="btn btn-primary mb-3">Создать метку</a>
     <ul class="list-group">
         {% for label in object_list %}
