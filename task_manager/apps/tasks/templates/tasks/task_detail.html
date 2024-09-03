@@ -1,25 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{{ task.name }}</h2>
-    <p><strong>Description:</strong> {{ task.description }}</p>
-    <p><strong>Status:</strong> {{ task.status.name }}</p>
-    <p><strong>Author:</strong> {{ task.author.username }}</p>
-    <p><strong>Assigned to:</strong>
-        {% if task.assigned_to %}
-            {{ task.assigned_to.username }}
-        {% else %}
-            None
-        {% endif %}
-    </p>
-    <p><strong>Labels:</strong>
-        {% for label in task.labels.all %}
-            {{ label.name }}{% if not forloop.last %}, {% endif %}
-        {% empty %}
-            No labels assigned
-        {% endfor %}
-    </p>
-    <a href="{% url 'task-update' task.pk %}" class="btn btn-secondary">Edit Task</a>
-    <a href="{% url 'task-delete' task.pk %}" class="btn btn-danger">Delete Task</a>
-    <a href="{% url 'task-list' %}" class="btn btn-primary">Back to Task List</a>
+<h2>Просмотр задачи</h2>
+
+<div class="card">
+    <div class="card-header">
+        <strong>{{ task.name }}</strong>
+    </div>
+    <div class="card-body">
+        <p>{{ task.description }}</p>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Автор</th>
+                    <td>{{ task.author.username }}</td>
+                </tr>
+                <tr>
+                    <th>Исполнитель</th>
+                    <td>
+                        {% if task.assigned_to %}
+                            {{ task.assigned_to.username }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Статус</th>
+                    <td>{{ task.status.name }}</td>
+                </tr>
+                <tr>
+                    <th>Дата создания</th>
+                    <td>{{ task.created_at }}</td>
+                </tr>
+                <tr>
+                    <th>Метки</th>
+                    <td>
+                        {% for label in task.labels.all %}
+                            {{ label.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            No labels assigned
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'task-update' task.pk %}">Изменить</a>
+        <a href="{% url 'task-delete' task.pk %}">Удалить</a>
+    </div>
+</div>
+
+<a href="{% url 'task-list' %}" class="btn btn-primary mt-3">Вернуться к списку задач</a>
 {% endblock %}
