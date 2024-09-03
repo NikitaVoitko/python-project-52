@@ -13,26 +13,25 @@ from task_manager.apps.statuses.models import Status
 
 User = get_user_model()
 
-class TaskListView(LoginRequiredMixin, FilterView):
+
+class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/task_list.html'
     context_object_name = 'tasks'
-    filterset_class = TaskFilter
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        own_tasks = self.request.GET.get('own_tasks')
-        if own_tasks == 'on':
-            queryset = queryset.filter(author=self.request.user)
-        return queryset
+        queryset = Task.objects.all()
+        self.filterset = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
+        return self.filterset.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
         context['statuses'] = Status.objects.all()
         context['users'] = User.objects.all()
         context['labels'] = Label.objects.all()
+        context['selected_labels'] = self.request.GET.getlist('labels')
         return context
-
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
