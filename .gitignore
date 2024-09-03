@@ -35,8 +35,6 @@ __pycache__/
 *.old
 *.orig
 
-# Игнорирование миграций, если хотите игнорировать все миграции
-#migrations/
 
 # Игнорирование файлов и папок coverage
 htmlcov/
@@ -51,8 +49,6 @@ coverage.xml
 .dmypy.json
 dmypy.json
 
-# Игнорирование файлов базы данных
-*.sqlite3
 
 # Игнорирование окружения в Jupyter
 .ipynb_checkpoints/

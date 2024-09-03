@@ -17,7 +17,7 @@ import dj_database_url
 from django.contrib.messages import constants as messages
 
 # Определяем, запускаются ли тесты
-TESTING = "test" in sys.argv
+#TESTING = "test" in sys.argv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
