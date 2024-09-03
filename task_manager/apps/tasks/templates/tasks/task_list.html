@@ -18,11 +18,22 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="author">Исполнитель</label>
+            <label for="author">Автор</label>
             <select name="author" id="author" class="form-control">
                 <option value="">---------</option>
-                {% for user in users %}
+                {% for user in authors %}
                     <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.author %}selected{% endif %}>
+                        {{ user.get_full_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="executor">Исполнитель</label>
+            <select name="assigned_to" id="executor" class="form-control">
+                <option value="">---------</option>
+                {% for user in executors %}
+                    <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.assigned_to %}selected{% endif %}>
                         {{ user.get_full_name }}
                     </option>
                 {% endfor %}

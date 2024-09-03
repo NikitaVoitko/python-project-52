@@ -28,7 +28,8 @@ class TaskListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
         context['statuses'] = Status.objects.all()
-        context['users'] = User.objects.all()
+        context['authors'] = User.objects.all()
+        context['executors'] = User.objects.all()
         context['labels'] = Label.objects.all()
         context['selected_labels'] = self.request.GET.getlist('labels')
         return context
