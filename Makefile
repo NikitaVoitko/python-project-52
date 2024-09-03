@@ -20,7 +20,10 @@ lint:
 	poetry run flake8
 
 test:
-	poetry run python3 manage.py test
+	 python manage.py test task_manager.apps.statuses
+	 python manage.py test task_manager.apps.users
+	 python manage.py test task_manager.apps.labels
+	 python manage.py test task_manager.apps.tasks
 
 test-cov:
 	poetry run coverage run manage.py test
