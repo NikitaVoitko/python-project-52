@@ -18,8 +18,8 @@
                 <tr>
                     <th>Исполнитель</th>
                     <td>
-                        {% if task.assigned_to %}
-                            {{ task.assigned_to.get_full_name }}
+                        {% if task.executor %}
+                            {{ task.executor.get_full_name }}
                         {% else %}
                             None
                         {% endif %}
