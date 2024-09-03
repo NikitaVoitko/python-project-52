@@ -7,28 +7,47 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="form-group">
-                {{ form.name.label_tag }} 
-                {{ form.name }}
+                <label for="id_name">Имя задачи</label>
+                <input type="text" id="id_name" name="name" class="form-control" value="{{ form.name.value|default_if_none:'' }}">
                 {{ form.name.errors }}
             </div>
             <div class="form-group">
-                {{ form.description.label_tag }} 
-                {{ form.description }}
+                <label for="id_description">Описание</label>
+                <textarea id="id_description" name="description" class="form-control">{{ form.description.value|default_if_none:'' }}</textarea>
                 {{ form.description.errors }}
             </div>
             <div class="form-group">
-                {{ form.status.label_tag }}
-                {{ form.status }}
+                <label for="id_status">Статус</label>
+                <select id="id_status" name="status" class="form-control">
+                    {% for option in form.status.field.choices %}
+                        <option value="{{ option.0 }}"{% if option.0 == form.status.value %} selected{% endif %}>
+                            {{ option.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
                 {{ form.status.errors }}
             </div>
             <div class="form-group">
-                {{ form.assigned_to.label_tag }}
-                {{ form.assigned_to }}
+                <label for="id_assigned_to">Исполнитель</label>
+                <select id="id_assigned_to" name="assigned_to" class="form-control">
+                    <option value="">---------</option>
+                    {% for user in form.assigned_to.field.queryset %}
+                        <option value="{{ user.pk }}"{% if user.pk == form.assigned_to.value %} selected{% endif %}>
+                            {{ user.username }}
+                        </option>
+                    {% endfor %}
+                </select>
                 {{ form.assigned_to.errors }}
             </div>
             <div class="form-group">
-                {{ form.labels.label_tag }}
-                {{ form.labels }} 
+                <label for="id_labels">Метки</label>
+                <select id="id_labels" name="labels" class="form-control" multiple>
+                    {% for label in form.labels.field.queryset %}
+                        <option value="{{ label.pk }}"{% if label.pk in form.labels.value %} selected{% endif %}>
+                            {{ label.name }}
+                        </option>
+                    {% endfor %}
+                </select>
                 {{ form.labels.errors }}
             </div>
             <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Изменить{% else %}Создать{% endif %}</button>
