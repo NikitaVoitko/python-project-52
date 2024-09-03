@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from task_manager.apps.users.views import UserListView, UserCreateView, UserUpdateView, UserDeleteView, LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,4 +10,6 @@ urlpatterns = [
     path('tasks/', include('task_manager.apps.tasks.urls')),
     path('labels/', include('task_manager.apps.labels.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
