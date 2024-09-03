@@ -13,13 +13,13 @@
             <tbody>
                 <tr>
                     <th>Автор</th>
-                    <td>{{ task.author.username }}</td>
+                    <td>{{ task.author.get_full_name }}</td>
                 </tr>
                 <tr>
                     <th>Исполнитель</th>
                     <td>
                         {% if task.assigned_to %}
-                            {{ task.assigned_to.username }}
+                            {{ task.assigned_to.get_full_name }}
                         {% else %}
                             None
                         {% endif %}
