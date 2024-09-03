@@ -2,33 +2,33 @@
 
 {% block content %}
     <div class="container">
-        <h2>{% if form.instance.pk %}Изменение задачи{% else %}Создание новой задачи{% endif %}</h2>
+        <h2>{% if form.instance.pk %}Изменение задачи{% else %}Создать задачу{% endif %}</h2>
         <form method="post" class="mt-4">
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="form-group">
-                {{ form.name.label_tag }} <!-- Отображение метки для поля 'name' -->
-                {{ form.name }} <!-- Поле 'name' -->
+                {{ form.name.label_tag }} 
+                {{ form.name }}
                 {{ form.name.errors }}
             </div>
             <div class="form-group">
-                {{ form.description.label_tag }} <!-- Отображение метки для поля 'description' -->
-                {{ form.description }} <!-- Поле 'description' -->
+                {{ form.description.label_tag }} 
+                {{ form.description }}
                 {{ form.description.errors }}
             </div>
             <div class="form-group">
-                {{ form.status.label_tag }} <!-- Отображение метки для поля 'status' -->
-                {{ form.status }} <!-- Поле 'status' -->
+                {{ form.status.label_tag }}
+                {{ form.status }}
                 {{ form.status.errors }}
             </div>
             <div class="form-group">
-                {{ form.assigned_to.label_tag }} <!-- Отображение метки для поля 'assigned_to' -->
-                {{ form.assigned_to }} <!-- Поле 'assigned_to' -->
+                {{ form.assigned_to.label_tag }}
+                {{ form.assigned_to }}
                 {{ form.assigned_to.errors }}
             </div>
             <div class="form-group">
-                {{ form.labels.label_tag }} <!-- Отображение метки для поля 'labels' -->
-                {{ form.labels }} <!-- Поле 'labels' -->
+                {{ form.labels.label_tag }}
+                {{ form.labels }} 
                 {{ form.labels.errors }}
             </div>
             <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Изменить{% else %}Создать{% endif %}</button>

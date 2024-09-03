@@ -9,16 +9,18 @@ from .forms import CustomAuthenticationForm, UserCreationForm
 from .models import User
 from task_manager.apps.tasks.models import Task
 from django.db.models.deletion import ProtectedError
+from django.contrib.messages.views import SuccessMessageMixin
 
 class UserListView(ListView):
     model = User
     template_name = 'users/user_list.html'
     context_object_name = 'users'
 
-class UserCreateView(CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UserCreationForm
     template_name = 'users/user_form.html'
     success_url = reverse_lazy('login')
+    success_message = "Пользователь успешно зарегистрирован"
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
