@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import CustomAuthenticationForm, UserCreationForm
+from .forms import CustomAuthenticationForm, UserCreationForm, UserUpdateForm
 from .models import User
 from task_manager.apps.tasks.models import Task
 from django.db.models.deletion import ProtectedError
@@ -24,9 +24,16 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
+    form_class = UserUpdateForm
     template_name = 'users/user_update.html'
-    fields = ['username', 'first_name', 'last_name']
     success_url = reverse_lazy('user-list')
+
+    def form_valid(self, form):
+        if form.cleaned_data.get('password1'):
+            self.object.set_password(form.cleaned_data['password1'])
+        self.object.save()
+        messages.success(self.request, "Пользователь успешно изменен")
+        return super().form_valid(form)
 
     def test_func(self):
         return self.get_object() == self.request.user
