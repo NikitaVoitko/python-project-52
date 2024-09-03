@@ -58,5 +58,13 @@ class LoginView(auth_views.LoginView):
     template_name = 'users/login.html'
     redirect_authenticated_user = True
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Вы залогинены')
+        return super().form_valid(form)
+
 class LogoutView(auth_views.LogoutView):
     next_page = reverse_lazy('home')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, 'Вы разлогинены')
+        return super().dispatch(request, *args, **kwargs)
