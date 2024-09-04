@@ -11,7 +11,7 @@ collectstatic:
 build: install migrate collectstatic
 
 run-server:
-	poetry run python3 -m gunicorn task_manager.asgi:application -k uvicorn.workers.UvicornWorker
+	 python manage.py runserver
 
 dev:
 	poetry run python3 manage.py runserver

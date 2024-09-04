@@ -3,13 +3,7 @@
 {% block content %}
 <h2>Пользователи</h2>
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
+
 
 <table class="table table-striped">
     <thead>
