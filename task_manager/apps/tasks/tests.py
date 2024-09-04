@@ -49,7 +49,7 @@ class TaskFilterTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.get(username='testuser')
-        self.client.force_login(self.user)  # Авторизуем пользователя
+        self.client.force_login(self.user) 
         self.status = Status.objects.get(name='In Progress')
         self.label = Label.objects.get(name='Bug')
 

@@ -73,6 +73,8 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
 
 
+from django.http import HttpResponseRedirect
+
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'tasks/task_confirm_delete.html'
@@ -87,7 +89,12 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return redirect('task-detail', pk=self.get_object().pk)
 
     def post(self, request, *args, **kwargs):
+        """
+        Обработка POST-запроса. Удаляет задачу и перенаправляет на список задач с флеш-сообщением.
+        """
         task = self.get_object()
         task.delete()
         messages.success(self.request, 'Задача успешно удалена')
-        return redirect(self.success_url)
+        
+        # Добавляем HttpResponseRedirect для явного редиректа после удаления
+        return HttpResponseRedirect(self.success_url)
