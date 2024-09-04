@@ -10,6 +10,7 @@ from task_manager.apps.labels.models import Label
 from .forms import TaskForm
 from .filters import TaskFilter
 from task_manager.apps.statuses.models import Status
+from django.http import HttpResponseRedirect
 
 User = get_user_model()
 
@@ -72,9 +73,6 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-
-from django.http import HttpResponseRedirect
-
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'tasks/task_confirm_delete.html'
@@ -86,7 +84,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         messages.error(self.request, "Задачу может удалить только ее автор.")
-        return redirect('task-detail', pk=self.get_object().pk)
+        return redirect('task-list')
 
     def post(self, request, *args, **kwargs):
         """
@@ -95,6 +93,4 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         task = self.get_object()
         task.delete()
         messages.success(self.request, 'Задача успешно удалена')
-        
-        # Добавляем HttpResponseRedirect для явного редиректа после удаления
         return HttpResponseRedirect(self.success_url)
