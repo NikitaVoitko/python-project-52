@@ -16,8 +16,6 @@ run-server:
 dev:
 	poetry run python3 manage.py runserver
 
-lint:
-	poetry run flake8
 
 test:
 	 python manage.py test task_manager.apps.statuses
