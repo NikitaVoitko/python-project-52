@@ -56,6 +56,22 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.error(self.request, "У вас нет прав для изменения")
         return redirect('user-list')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        user_in_use = (
+            Task.objects.filter(executor=self.object).exists() or
+            Task.objects.filter(author=self.object).exists()
+        )
+        if user_in_use:
+            messages.error(
+                self.request,
+                "Невозможно удалить пользователя, потому что он используется"
+            )
+            return redirect(self.success_url)
+
+        messages.success(self.request, "Пользователь успешно удален")
+        return super().post(request, *args, **kwargs)
+
 
 class LoginView(auth_views.LoginView):
     form_class = CustomAuthenticationForm
@@ -65,22 +81,6 @@ class LoginView(auth_views.LoginView):
     def form_valid(self, form):
         messages.success(self.request, 'Вы залогинены')
         return super().form_valid(form)
-
-
-def post(self, request, *args, **kwargs):
-    self.object = self.get_object()
-
-    if (Task.objects.filter(executor=self.object).exists() or
-            Task.objects.filter(author=self.object).exists()):
-        messages.error(
-            self.request,
-            "Невозможно удалить пользователя, потому что он используется"
-        )
-        return redirect(self.success_url)
-
-    response = super(UserDeleteView, self).post(request, *args, **kwargs)
-    messages.success(self.request, "Пользователь успешно удален")
-    return response
 
 
 class LogoutView(auth_views.LogoutView):
