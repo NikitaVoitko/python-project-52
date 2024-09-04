@@ -59,8 +59,8 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         user_in_use = (
-            Task.objects.filter(executor=self.object).exists() or
-            Task.objects.filter(author=self.object).exists()
+            Task.objects.filter(executor=self.object).exists()
+            or Task.objects.filter(author=self.object).exists()
         )
         if user_in_use:
             messages.error(
