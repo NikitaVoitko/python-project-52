@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
@@ -15,6 +15,7 @@ class AuthRequiredMixin(LoginRequiredMixin):
             messages.error(request, self.auth_message)
             return redirect(reverse_lazy('login'))
         return super().dispatch(request, *args, **kwargs)
+
 
 class DeleteProtectionMixin:
     protected_message = None

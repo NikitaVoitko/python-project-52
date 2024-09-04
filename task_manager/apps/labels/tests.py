@@ -7,6 +7,7 @@ from .models import Label
 
 User = get_user_model()
 
+
 class LabelCRUDTests(TestCase):
     fixtures = ['users.json', 'statuses.json', 'tasks.json', 'labels.json']
 
@@ -30,7 +31,10 @@ class LabelCRUDTests(TestCase):
         self.assertTrue(Label.objects.filter(name='New Feature').exists())
 
     def test_label_update_view(self):
-        response = self.client.post(reverse('label-update', args=[self.label.id]), {'name': 'Bug Updated'})
+        response = self.client.post(
+            reverse('label-update', args=[self.label.id]),
+            {'name': 'Bug Updated'}
+        )
         self.assertEqual(response.status_code, 302)
         self.label.refresh_from_db()
         self.assertEqual(self.label.name, 'Bug Updated')

@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class TaskFilter(django_filters.FilterSet):
     status = django_filters.ModelChoiceFilter(queryset=Status.objects.all(), label='Статус')
     author = django_filters.ModelChoiceFilter(queryset=User.objects.all(), label='Автор')

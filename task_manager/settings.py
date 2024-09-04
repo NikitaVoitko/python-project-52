@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 import rollbar
 import dj_database_url
@@ -10,7 +9,7 @@ from dotenv import load_dotenv  # Добавлено для загрузки п�
 load_dotenv()
 
 # Определяем, запускаются ли тесты
-#TESTING = "test" in sys.argv
+# ESTING = "test" in sys.argv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

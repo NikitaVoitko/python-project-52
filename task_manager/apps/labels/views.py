@@ -3,15 +3,16 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.core.exceptions import ValidationError
+from django.shortcuts import redirect
 from .models import Label
 from .forms import LabelForm
+
 
 @method_decorator(login_required, name='dispatch')
 class LabelListView(ListView):
     model = Label
     template_name = 'labels/label_list.html'
+
 
 @method_decorator(login_required, name='dispatch')
 class LabelCreateView(CreateView):
@@ -25,6 +26,7 @@ class LabelCreateView(CreateView):
         messages.success(self.request, "Метка успешно создана")
         return response
 
+
 @method_decorator(login_required, name='dispatch')
 class LabelUpdateView(UpdateView):
     model = Label
@@ -36,6 +38,7 @@ class LabelUpdateView(UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, "Метка успешно изменена")
         return response
+
 
 @method_decorator(login_required, name='dispatch')
 class LabelDeleteView(DeleteView):

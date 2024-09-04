@@ -1,5 +1,4 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
@@ -34,6 +33,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         context['labels'] = Label.objects.all()
         context['selected_labels'] = self.request.GET.getlist('labels')
         return context
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
@@ -87,9 +87,6 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return redirect('task-list')
 
     def post(self, request, *args, **kwargs):
-        """
-        Обработка POST-запроса. Удаляет задачу и перенаправляет на список задач с флеш-сообщением.
-        """
         task = self.get_object()
         task.delete()
         messages.success(self.request, 'Задача успешно удалена')

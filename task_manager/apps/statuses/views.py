@@ -2,8 +2,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.shortcuts import redirect
-from django.db.models.deletion import ProtectedError
 from .models import Status
 from task_manager.mixins import DeleteProtectionMixin, AuthRequiredMixin
 
@@ -35,6 +33,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Статус успешно изменен')
         return super().form_valid(form)
 
+
 class StatusDeleteView(DeleteProtectionMixin,
                        AuthRequiredMixin,
                        DeleteView):
@@ -46,4 +45,3 @@ class StatusDeleteView(DeleteProtectionMixin,
     model = Status
     protected_url = reverse_lazy('status-list')
     protected_message = ('Невозможно удалить статус, потому что он используется')
-

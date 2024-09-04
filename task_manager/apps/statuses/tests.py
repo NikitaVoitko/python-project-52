@@ -5,6 +5,7 @@ from .models import Status
 
 User = get_user_model()
 
+
 class StatusCRUDTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='password123')
@@ -17,7 +18,10 @@ class StatusCRUDTests(TestCase):
         self.assertTrue(Status.objects.filter(name='New Status').exists())
 
     def test_status_update(self):
-        response = self.client.post(reverse('status-update', args=[self.status.id]), {'name': 'Updated Status'})
+        response = self.client.post(
+            reverse('status-update', args=[self.status.id]),
+            {'name': 'Updated Status'}
+        )
         self.assertEqual(response.status_code, 302)
         self.status.refresh_from_db()
         self.assertEqual(self.status.name, 'Updated Status')

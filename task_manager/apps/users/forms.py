@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from .models import User
 
+
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         label='Имя пользователя',
@@ -11,6 +12,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         label='Пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+
 
 class UserCreationForm(UserCreationForm):
     first_name = forms.CharField(
@@ -50,6 +52,7 @@ class UserCreationForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
+
 
 class UserChangeForm(UserChangeForm):
     class Meta:

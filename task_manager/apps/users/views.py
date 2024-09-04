@@ -3,24 +3,25 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CustomAuthenticationForm, UserCreationForm, UserUpdateForm
 from .models import User
 from task_manager.apps.tasks.models import Task
-from django.db.models.deletion import ProtectedError
 from django.contrib.messages.views import SuccessMessageMixin
+
 
 class UserListView(ListView):
     model = User
     template_name = 'users/user_list.html'
     context_object_name = 'users'
 
+
 class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UserCreationForm
     template_name = 'users/user_form.html'
     success_url = reverse_lazy('login')
     success_message = "Пользователь успешно зарегистрирован"
+
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
@@ -42,6 +43,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.error(self.request, "У вас нет прав для изменения другого пользователя.")
         return redirect('user-list')
 
+
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'users/user_confirm_delete.html'
@@ -54,15 +56,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.error(self.request, "У вас нет прав для изменения")
         return redirect('user-list')
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if Task.objects.filter(executor=self.object).exists() or Task.objects.filter(author=self.object).exists():
-            messages.error(self.request, "Невозможно удалить пользователя, потому что он используется")
-            return redirect(self.success_url)
-        
-        messages.success(self.request, "Пользователь успешно удален")
-        return super().post(request, *args, **kwargs)
-        
+
 class LoginView(auth_views.LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'users/login.html'
@@ -71,6 +65,23 @@ class LoginView(auth_views.LoginView):
     def form_valid(self, form):
         messages.success(self.request, 'Вы залогинены')
         return super().form_valid(form)
+
+
+def post(self, request, *args, **kwargs):
+    self.object = self.get_object()
+
+    if (Task.objects.filter(executor=self.object).exists() or
+            Task.objects.filter(author=self.object).exists()):
+        messages.error(
+            self.request,
+            "Невозможно удалить пользователя, потому что он используется"
+        )
+        return redirect(self.success_url)
+
+    response = super(UserDeleteView, self).post(request, *args, **kwargs)
+    messages.success(self.request, "Пользователь успешно удален")
+    return response
+
 
 class LogoutView(auth_views.LogoutView):
     next_page = reverse_lazy('home')

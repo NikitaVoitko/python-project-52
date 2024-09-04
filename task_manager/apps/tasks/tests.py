@@ -6,6 +6,8 @@ from .models import Task
 from task_manager.apps.labels.models import Label
 
 User = get_user_model()
+
+
 class TaskCRUDTests(TestCase):
     fixtures = ['users.json', 'statuses.json', 'tasks.json']
 
@@ -43,13 +45,14 @@ class TaskCRUDTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Task.objects.filter(name='Test task 2').exists())
 
+
 class TaskFilterTests(TestCase):
     fixtures = ['users.json', 'statuses.json', 'tasks.json', 'labels.json']
 
     def setUp(self):
         self.client = Client()
         self.user = User.objects.get(username='testuser')
-        self.client.force_login(self.user) 
+        self.client.force_login(self.user)
         self.status = Status.objects.get(name='In Progress')
         self.label = Label.objects.get(name='Bug')
 

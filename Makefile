@@ -38,3 +38,6 @@ makemessages:
 
 compilemessages:
 	poetry run python3 manage.py compilemessages
+
+lint:
+	poetry run flake8 task_manager --exclude=migrations,settings.py,admin.py
