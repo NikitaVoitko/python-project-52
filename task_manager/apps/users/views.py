@@ -51,13 +51,13 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object() == self.request.user
 
     def handle_no_permission(self):
-        messages.error(self.request, "У вас нет прав для удаления другого пользователя.")
+        messages.error(self.request, "У вас нет прав для изменения")
         return redirect('user-list')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if Task.objects.filter(executor=self.object).exists() or Task.objects.filter(author=self.object).exists():
-            messages.error(self.request, "Невозможно удалить пользователя, потому что он связан с задачами.")
+            messages.error(self.request, "Невозможно удалить пользователя, потому что он используется")
             return redirect(self.success_url)
         
         messages.success(self.request, "Пользователь успешно удален")
