@@ -18,10 +18,10 @@ dev:
 
 
 test:
-	 python manage.py test task_manager.apps.statuses
-	 python manage.py test task_manager.apps.users
-	 python manage.py test task_manager.apps.labels
-	 python manage.py test task_manager.apps.tasks
+	poetry run python manage.py test task_manager.apps.statuses
+	poetry run python manage.py test task_manager.apps.users
+	poetry run python manage.py test task_manager.apps.labels
+	poetry run python manage.py test task_manager.apps.tasks
 
 test-cov:
 	poetry run coverage run manage.py test
